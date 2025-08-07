@@ -8,3 +8,4 @@ terraform {
 }
 
 #this file will be used for pushing tfstate file to s3 bucket
+#the lockfile will apply lock to the statefile when terraform apply command is run, this lock will not allow other requests at the same time (other developers-dev2)
