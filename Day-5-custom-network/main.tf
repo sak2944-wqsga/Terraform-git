@@ -86,3 +86,33 @@ resource "aws_instance" "dev" {
     Name = "ec2-auto"
   }
 }
+
+# Create private network
+# Create Elastic IP
+resource "aws_eip" "name" {
+  domain = "vpc"
+  tags = {
+    Name = "auto-pvt-eip"
+  }
+}
+# Create NAT Gateway
+resource "aws_nat_gateway" "name" {
+  allocation_id = aws_eip.name.id
+  subnet_id = aws_subnet.name.id
+  tags = {
+    Name = "auto-natgw"
+  }
+  
+}
+# Create pvt Route Table for NAT GW
+resource "aws_route_table" "pvt-rt" {
+  vpc_id = aws_vpc.name.id
+  route {
+        cidr_block = "0.0.0.0/0"
+        gateway_id = aws_nat_gateway.name.id
+    }
+    tags = {
+      Name = "auto-pvt-rt"
+    }
+  
+}
