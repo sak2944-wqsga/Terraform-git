@@ -35,6 +35,7 @@ resource "aws_security_group" "dev_rds_sg" {
 }
 
 # RDS MySQL Instance
+# Primary RDS MySQL Instance
 resource "aws_db_instance" "dev_rds" {
   allocated_storage      = 20
   storage_type           = "gp2"
@@ -42,16 +43,17 @@ resource "aws_db_instance" "dev_rds" {
   engine_version         = "8.0"
   instance_class         = "db.t3.micro"
   db_name                = "devdb"
+  identifier             = "my-dev-db"
   username               = "admin"
   password               = "StrongPassw0rd!"
   skip_final_snapshot    = true
-  publicly_accessible    = true
+}
 
-  db_subnet_group_name   = aws_db_subnet_group.dev_db_subnet_group.name
-  vpc_security_group_ids = [aws_security_group.dev_rds_sg.id]
-  depends_on = [ aws_db_subnet_group.dev_db_subnet_group ]
+# Read Replica
+resource "aws_db_instance" "read_replica" {
+  replicate_source_db    = aws_db_instance.dev_rds.identifier  # Use name, not ID
+  instance_class         = "db.t3.micro"
+  identifier             = "my-read-replica"
 
-  tags = {
-    Name = "dev-rds"
-  }
+  depends_on = [aws_db_instance.dev_rds]
 }
