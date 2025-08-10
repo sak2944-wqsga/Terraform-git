@@ -61,7 +61,7 @@ resource "aws_db_instance" "dev_rds" {
 
 # Read Replica
 resource "aws_db_instance" "read_replica" {
-  replicate_source_db    = aws_db_instance.dev_rds.arn  # Use name, not ID
+  replicate_source_db    = aws_db_instance.dev_rds.arn  # Use arn, not ID
   instance_class         = "db.t3.micro"
   identifier             = "my-read-replica"
 
