@@ -4,3 +4,4 @@ module "git-source" {
     instance-type = "t2.micro"
   
 }
+# we can also use terraform registry provided modules by searching google
