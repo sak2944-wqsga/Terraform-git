@@ -10,6 +10,7 @@ resource "aws_instance" "name" {
 
 variable "ec2" {
     type = list(string)
-    default = [ "dev", "prod"]
+    default = [ "dev", "test", "prod"]
   
 }
+#if we delete test(middle) server then it will not delete the actual test, it will delete prod(last) & rename test(middle) as prod
