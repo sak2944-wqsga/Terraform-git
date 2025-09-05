@@ -13,3 +13,4 @@ resource "aws_s3_bucket" "name" {
     bucket = "veryscdte"
   
 }
+#install opentofu first by using command from its website i.e >> winget install --exact --id=OpenTofu.Tofu
